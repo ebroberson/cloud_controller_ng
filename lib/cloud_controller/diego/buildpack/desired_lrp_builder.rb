@@ -115,7 +115,11 @@ module VCAP::CloudController
         end
 
         def action_user
-          'vcap'
+          if @stack == "windows" || @stack == "windows2016"
+            return 'containeruser'
+          else
+            return 'vcap'
+          end
         end
       end
     end
