@@ -102,3 +102,8 @@ group :development do
   gem 'spring'
   gem 'spring-commands-rspec'
 end
+
+group :debug do
+  gem "ruby-debug-ide", "~> 0.7.3"
+  gem "debase", "= 0.2.5.beta2"
+end

@@ -44,6 +44,8 @@ runs:
         bundler-cache: true
         working-directory: ${{ inputs.WORKING_DIRECTORY }}
     - name: Install Ruby dependencies
-      run: bundle install
+      run: |
+        bundle config set --local without 'debug'
+        bundle install
       shell: bash
       working-directory: ${{ inputs.WORKING_DIRECTORY }}
