@@ -17,6 +17,7 @@ module VCAP::CloudController
           @checksum_algorithm = opts[:checksum_algorithm]
           @checksum_value = opts[:checksum_value]
           @start_command = opts[:start_command]
+          @service_bindings = opts[:service_bindings]
         end
 
         def cached_dependencies
@@ -96,7 +97,13 @@ module VCAP::CloudController
         end
 
         def global_environment_variables
-          [::Diego::Bbs::Models::EnvironmentVariable.new(name: 'LANG', value: DEFAULT_LANG)]
+          vcap_services_key = :VCAP_SERVICES
+          system_env = SystemEnvPresenter.new(@service_bindings).system_env
+          encoded_vcap_services_json = system_env[vcap_services_key].to_json
+          [
+            ::Diego::Bbs::Models::EnvironmentVariable.new(name: 'LANG', value: DEFAULT_LANG),
+            ::Diego::Bbs::Models::EnvironmentVariable.new(name: 'VCAP_SERVICES', value: encoded_vcap_services_json),
+          ]
         end
 
         def ports

@@ -63,6 +63,7 @@ module VCAP
 
           def builder_opts(process)
             checksum_info = droplet_checksum_info(process.actual_droplet)
+
             {
               droplet_uri:        @droplet_url_generator.perma_droplet_download_url(process.guid, checksum_info['value']),
               droplet_hash:       process.actual_droplet.droplet_hash,
@@ -72,6 +73,7 @@ module VCAP
               checksum_algorithm: checksum_info['type'],
               checksum_value:     checksum_info['value'],
               start_command:      process.started_command,
+              service_bindings:   process.service_bindings,
             }
           end
 
